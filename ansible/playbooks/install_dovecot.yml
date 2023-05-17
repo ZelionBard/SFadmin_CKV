@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+          - name: Install Dovecot-core
+            apt:
+                    name=dovecot-core
+                    state=present
+          - name: Install Dovecot-imapd
+            apt:
+                    name=dovecot-imapd
+                    state=present
+          - name: Install Dovecot-pop3d
+            apt:
+                    name=dovecot-pop3d
+                    state=present
+          - name: Install Dovecot-lmtpd
+            apt:
+                    name=dovecot-lmtpd
+                    state=present
+  handlers:
+          - name: restart postfix
+            service:
+                    name=dovecot
+                    state=restarted

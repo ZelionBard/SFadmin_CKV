@@ -1,0 +1,21 @@
+---
+- hosts: finalproject
+  become: yes
+  tasks:
+          - name: Install Bind on Ubuntu
+            apt:
+                    name: "{{ item }}"
+                    state: present
+            loop:
+                    - bind9
+                    - dnsutils
+            when:
+                    ansible_os_family == "Debian"
+            notify:
+                    bind systemd
+  handlers:
+          - name: bind systemd
+            systemd:
+                    name: bind9.service
+                    enabled: yes
+                    state: started

@@ -1,0 +1,20 @@
+---
+- hosts: all
+  become: yes
+  tasks:
+          - name: Install Postgresql-12 on Ubuntu
+            apt:
+                    name=postgresql-12
+                    state=present
+            notify:
+                    postgresql systemd
+          - name: Install Postgresql-client-12
+            apt:
+                    name=postgresql-client-12
+                    state=present
+  handlers:
+          - name: postgresql systemd
+            systemd:
+                    name: postgresql.service
+                    enabled: yes
+                    state: started
